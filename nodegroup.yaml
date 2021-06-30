@@ -183,7 +183,7 @@ Resources:
           Value: owned
         - Key: Name
           Value: !Sub '${AWS::StackName}/SG'
-      VpcId: !ImportValue 'eksctl-eks-poc-cluster::VPC'
+      VpcId: !ImportValue 'EKS-01-Cluster::VPC'
 Outputs:
   FeatureLocalSecurityGroup:
     Value: true
