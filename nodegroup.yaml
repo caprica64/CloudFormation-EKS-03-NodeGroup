@@ -32,7 +32,7 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
@@ -44,7 +44,7 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}--SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
@@ -54,7 +54,7 @@ Resources:
         Allow control plane to receive API requests from worker nodes in group
         nodegroup-1
       FromPort: 443
-      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}---SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
