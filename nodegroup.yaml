@@ -56,7 +56,7 @@ Resources:
         nodegroup-1
       FromPort: 443
       GroupId: !ImportValue
-        "Fn::Sub": "${ClusterStackName}-SecurityGroup'
+        "Fn::Sub": '${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
