@@ -213,4 +213,3 @@ Outputs:
       - Arn
     Export:
       Name: !Sub '${AWS::StackName}::InstanceRoleARN'
-      #
