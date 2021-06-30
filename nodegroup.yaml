@@ -80,7 +80,8 @@ Resources:
           Value: owned
       VPCZoneIdentifier: !Split 
         - ','
-        - !ImportValue '${ClusterStackName}::SubnetsPublic'
+        - !ImportValue
+            "Fn::Sub: '${ClusterStackName}::SubnetsPublic'
     UpdatePolicy:
       AutoScalingRollingUpdate: {}
   NodeGroupLaunchTemplate:
