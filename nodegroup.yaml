@@ -32,7 +32,7 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
