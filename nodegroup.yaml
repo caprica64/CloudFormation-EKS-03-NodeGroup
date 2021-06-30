@@ -44,7 +44,7 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      GroupId: !ImportValue '${ClusterStackName}--SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
