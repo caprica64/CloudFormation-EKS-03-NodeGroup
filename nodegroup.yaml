@@ -109,7 +109,7 @@ Resources:
         NetworkInterfaces:
           - DeviceIndex: 0
             Groups:
-              - !ImportValue '${CRAZYStackName}::SharedNodeSecurityGroup'
+              - !ImportValue '${ClusterStackName}::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
