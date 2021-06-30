@@ -54,7 +54,7 @@ Resources:
         Allow control plane to receive API requests from worker nodes in group
         nodegroup-1
       FromPort: 443
-      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
