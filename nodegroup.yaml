@@ -25,7 +25,7 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue 'eksctl-eks-poc-cluster::SecurityGroup'
+      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
@@ -37,7 +37,7 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      GroupId: !ImportValue 'eksctl-eks-poc-cluster::SecurityGroup'
+      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
@@ -47,7 +47,7 @@ Resources:
         Allow control plane to receive API requests from worker nodes in group
         nodegroup-1
       FromPort: 443
-      GroupId: !ImportValue 'eksctl-eks-poc-cluster::SecurityGroup'
+      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
@@ -71,7 +71,7 @@ Resources:
           Value: owned
       VPCZoneIdentifier: !Split 
         - ','
-        - !ImportValue 'eksctl-eks-poc-cluster::SubnetsPublic'
+        - !ImportValue 'EKS-01-Cluster::SubnetsPublic'
     UpdatePolicy:
       AutoScalingRollingUpdate: {}
   NodeGroupLaunchTemplate:
@@ -91,7 +91,7 @@ Resources:
             - NodeInstanceProfile
             - Arn
         ImageId: ami-06c778c22c5e09bf7
-        InstanceType: t3.small
+        InstanceType: t2.micro
         KeyName: >-
           eksctl-eks-poc-nodegroup-nodegroup-1-de:1e:b8:a8:13:cb:d7:a1:22:1b:b9:d1:eb:71:0d:de
         MetadataOptions:
@@ -100,7 +100,7 @@ Resources:
         NetworkInterfaces:
           - DeviceIndex: 0
             Groups:
-              - !ImportValue 'eksctl-eks-poc-cluster::SharedNodeSecurityGroup'
+              - !ImportValue 'EKS-01-Cluster::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
