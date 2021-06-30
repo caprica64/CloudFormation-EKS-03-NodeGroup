@@ -190,7 +190,7 @@ Resources:
           Value: owned
         - Key: Name
           Value: !Sub '${AWS::StackName}/SG'
-      VpcId: !ImportValue '${NetworkStackName}::VPC'
+      VpcId: vpc-09d748dfa4af0e057'
 Outputs:
   FeatureLocalSecurityGroup:
     Value: true
