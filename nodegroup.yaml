@@ -173,7 +173,8 @@ Resources:
             communicate with control plane (kubelet and workload TCP ports)
           FromPort: 1025
           IpProtocol: tcp
-          SourceSecurityGroupId: !ImportValue '${ClusterStackName}-SecurityGroup'
+          SourceSecurityGroupId:  !ImportValue
+            "Fn::Sub": '${ClusterStackName}-SecurityGroup'
           ToPort: 65535
         - Description: >-
             [IngressInterClusterAPI] Allow worker nodes in group nodegroup-1 to
@@ -181,7 +182,8 @@ Resources:
             used with extension API servers)
           FromPort: 443
           IpProtocol: tcp
-          SourceSecurityGroupId: !ImportValue '${ClusterStackName}-SecurityGroup'
+          SourceSecurityGroupId:  !ImportValue
+            "Fn::Sub": '${ClusterStackName}-SecurityGroup'
           ToPort: 443
         - FromPort: 22
           IpProtocol: tcp
