@@ -32,7 +32,7 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue '${NetworkStackName}::SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
@@ -45,7 +45,7 @@ Resources:
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
       GroupId: !ImportValue
-        "Fn::Sub": '${NetworkStackName}-SecurityGroup'
+        "Fn::Sub": '${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
@@ -56,7 +56,7 @@ Resources:
         nodegroup-1
       FromPort: 443
       GroupId: !ImportValue
-        "Fn::Sub": '${NetworkStackName}-SecurityGroup'
+        "Fn::Sub": '${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
@@ -109,7 +109,7 @@ Resources:
         NetworkInterfaces:
           - DeviceIndex: 0
             Groups:
-              - !ImportValue '${NetworkStackName}::SharedNodeSecurityGroup'
+              - !ImportValue '${ClusterStackName}::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
@@ -173,7 +173,7 @@ Resources:
             communicate with control plane (kubelet and workload TCP ports)
           FromPort: 1025
           IpProtocol: tcp
-          SourceSecurityGroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+          SourceSecurityGroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
           ToPort: 65535
         - Description: >-
             [IngressInterClusterAPI] Allow worker nodes in group nodegroup-1 to
@@ -181,7 +181,7 @@ Resources:
             used with extension API servers)
           FromPort: 443
           IpProtocol: tcp
-          SourceSecurityGroupId: !ImportValue '${NetworkStackName}::SecurityGroup'
+          SourceSecurityGroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
           ToPort: 443
         - FromPort: 22
           IpProtocol: tcp
