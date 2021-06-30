@@ -2,6 +2,13 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: >-
   EKS nodes (AMI family: AmazonLinux2, SSH access: true, private networking:
   false) [created and managed by eksctl]
+Parameters:
+  NetworkStackName:
+    Default: "EKS-00-Network"
+    Type: String
+  ClusterStackName:
+    Default: "EKS-01-Cluster"
+    Type: String
 Mappings:
   ServicePrincipalPartitionMap:
     aws:
@@ -37,7 +44,9 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      #GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue
+        "Fn::Sub": "${ClusterStackName}-SecurityGroup"
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
@@ -47,7 +56,8 @@ Resources:
         Allow control plane to receive API requests from worker nodes in group
         nodegroup-1
       FromPort: 443
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue
+        "Fn::Sub": "${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
@@ -183,7 +193,8 @@ Resources:
           Value: owned
         - Key: Name
           Value: !Sub '${AWS::StackName}/SG'
-      VpcId: !ImportValue 'EKS-01-Cluster::VPC'
+      VpcId: !ImportValue
+        "Fn::Sub": "${NetworkStackName}-VPC"
 Outputs:
   FeatureLocalSecurityGroup:
     Value: true
