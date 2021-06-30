@@ -207,9 +207,10 @@ Outputs:
       - Arn
     Export:
       Name: !Sub '${AWS::StackName}::InstanceProfileARN'
-#  InstanceRoleARN:
-#    Value: !GetAtt 
-#      - NodeInstanceRole
-#      - Arn
-#    Export:
-#      Name: !Sub '${AWS::StackName}::InstanceRoleARN'
+  InstanceRoleARN:
+    Value: !GetAtt 
+      - NodeInstanceRole
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}::InstanceRoleARN'
+      
