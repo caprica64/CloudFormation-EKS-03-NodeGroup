@@ -32,7 +32,7 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
@@ -44,9 +44,8 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      #GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
       GroupId: !ImportValue
-        "Fn::Sub": "${ClusterStackName}-SecurityGroup"
+        "Fn::Sub": '${ClusterStackName}-SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
@@ -81,7 +80,7 @@ Resources:
           Value: owned
       VPCZoneIdentifier: !Split 
         - ','
-        - !ImportValue 'EKS-01-Cluster::SubnetsPublic'
+        - !ImportValue '${ClusterStackName}::SubnetsPublic'
     UpdatePolicy:
       AutoScalingRollingUpdate: {}
   NodeGroupLaunchTemplate:
@@ -110,7 +109,7 @@ Resources:
         NetworkInterfaces:
           - DeviceIndex: 0
             Groups:
-              - !ImportValue 'EKS-01-Cluster::SharedNodeSecurityGroup'
+              - !ImportValue '${ClusterStackName}::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
@@ -207,4 +206,10 @@ Outputs:
       - Arn
     Export:
       Name: !Sub '${AWS::StackName}::InstanceProfileARN'
-  
+  InstanceRoleARN:
+    Value: !GetAtt 
+      - NodeInstanceRole
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}::InstanceRoleARN'
+      
