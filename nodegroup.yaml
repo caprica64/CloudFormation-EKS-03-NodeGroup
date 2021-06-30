@@ -174,8 +174,7 @@ Resources:
             communicate with control plane (kubelet and workload TCP ports)
           FromPort: 1025
           IpProtocol: tcp
-          SourceSecurityGroupId:  !ImportValue
-            "Fn::Sub": '${ClusterStackName}::SecurityGroup'
+          SourceSecurityGroupId:  !ImportValue '${ClusterStackName}::SecurityGroup'
           ToPort: 65535
         - Description: >-
             [IngressInterClusterAPI] Allow worker nodes in group nodegroup-1 to
