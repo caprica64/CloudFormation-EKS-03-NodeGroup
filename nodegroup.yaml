@@ -82,7 +82,7 @@ Resources:
       VPCZoneIdentifier: !Split 
         - ','
         - !ImportValue
-        'Fn::Sub': '${ClusterStackName}::SubnetsPublic'
+          'Fn::Sub': '${ClusterStackName}::SubnetsPublic'
     UpdatePolicy:
       AutoScalingRollingUpdate: {}
   NodeGroupLaunchTemplate:
