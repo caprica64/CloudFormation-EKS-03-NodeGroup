@@ -99,8 +99,7 @@ Resources:
             - Arn
         ImageId: ami-06c778c22c5e09bf7
         InstanceType: t2.micro
-        KeyName: >-
-          eksctl-eks-poc-nodegroup-nodegroup-1-de:1e:b8:a8:13:cb:d7:a1:22:1b:b9:d1:eb:71:0d:de
+        KeyName: ecs
         MetadataOptions:
           HttpPutResponseHopLimit: 2
           HttpTokens: optional
