@@ -193,7 +193,8 @@ Resources:
           Value:   !ImportValue
             'Fn::Sub': '${ClusterStackName}::SecurityGroup'
           #Value: !ImportValue '${ClusterStackName}::SecurityGroup'
-      VpcId: !ImportValue 'EKS-01-Cluster::VPC'
+      VpcId: !ImportValue 
+        'Fn::Sub': '${ClusterStackName}::VPC'
 Outputs:
   FeatureLocalSecurityGroup:
     Value: true
