@@ -45,7 +45,8 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue
+        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
