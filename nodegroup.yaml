@@ -183,7 +183,7 @@ Resources:
           ToPort: 443
         - FromPort: 22
           IpProtocol: tcp
-          SourceSecurityGroupId: sg-015b513c6f6cf9b1e
+          SourceSecurityGroupId: sg-08bd4a0677d845013
           ToPort: 22
       Tags:
         - Key: kubernetes.io/cluster/eks-poc
