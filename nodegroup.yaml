@@ -111,7 +111,7 @@ Resources:
           - DeviceIndex: 0
             Groups:
               - !ImportValue
-                  'Fn::Sub'': '${ClusterStackName}::SharedNodeSecurityGroup'
+                  'Fn::Sub': '${ClusterStackName}::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
