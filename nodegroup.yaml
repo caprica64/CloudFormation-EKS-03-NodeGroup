@@ -32,7 +32,8 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue 
+        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
@@ -189,10 +190,6 @@ Resources:
           Value: owned
         - Key: Name
           Value: !Sub '${AWS::StackName}/SG'
-        - Key: RelatedTo
-          Value:   !ImportValue
-            'Fn::Sub': '${ClusterStackName}::SecurityGroup'
-          #Value: !ImportValue '${ClusterStackName}::SecurityGroup'
       VpcId: !ImportValue 
         'Fn::Sub': '${ClusterStackName}::VPC'
 Outputs:
