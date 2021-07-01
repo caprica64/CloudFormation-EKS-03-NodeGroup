@@ -110,7 +110,8 @@ Resources:
         NetworkInterfaces:
           - DeviceIndex: 0
             Groups:
-              - !ImportValue 'EKS-01-Cluster::SharedNodeSecurityGroup'
+              - !ImportValue
+                  'Fn::Sub'': '${ClusterStackName}::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
