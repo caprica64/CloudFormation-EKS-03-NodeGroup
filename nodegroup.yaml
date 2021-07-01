@@ -191,7 +191,7 @@ Resources:
           Value: !Sub '${AWS::StackName}/SG'
         - Key: RelatedTo
           Value:   !ImportValue
-        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+            'Fn::Sub': '${ClusterStackName}::SecurityGroup'
           #Value: !ImportValue '${ClusterStackName}::SecurityGroup'
       VpcId: !ImportValue 'EKS-01-Cluster::VPC'
 Outputs:
