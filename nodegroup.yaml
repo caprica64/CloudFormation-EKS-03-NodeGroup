@@ -1,3 +1,35 @@
+
+Skip to content
+Pull requests
+Issues
+Marketplace
+Explore
+@caprica64
+caprica64 /
+CloudFormation-EKS-03-NodeGroup
+
+1
+0
+
+    0
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+
+    Settings
+
+CloudFormation-EKS-03-NodeGroup/nodegroup.yaml
+Rodrigo Monteiro Previous test fine, trying same format on VpcId property in SG
+Latest commit 1ce1fc2 1 hour ago
+History
+1 contributor
+217 lines (216 sloc) 12.4 KB
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
   EKS nodes (AMI family: AmazonLinux2, SSH access: true, private networking:
@@ -32,8 +64,7 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue
-        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
@@ -45,8 +76,7 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      GroupId: !ImportValue
-        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
@@ -56,8 +86,7 @@ Resources:
         Allow control plane to receive API requests from worker nodes in group
         nodegroup-1
       FromPort: 443
-      GroupId: !ImportValue
-        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
@@ -81,8 +110,7 @@ Resources:
           Value: owned
       VPCZoneIdentifier: !Split 
         - ','
-        - !ImportValue
-            'Fn::Sub': '${ClusterStackName}::SubnetsPublic'
+        - !ImportValue 'EKS-01-Cluster::SubnetsPublic'
     UpdatePolicy:
       AutoScalingRollingUpdate: {}
   NodeGroupLaunchTemplate:
@@ -110,8 +138,7 @@ Resources:
         NetworkInterfaces:
           - DeviceIndex: 0
             Groups:
-              - !ImportValue
-                  'Fn::Sub': '${ClusterStackName}::SharedNodeSecurityGroup'
+              - !ImportValue 'EKS-01-Cluster::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
@@ -175,8 +202,7 @@ Resources:
             communicate with control plane (kubelet and workload TCP ports)
           FromPort: 1025
           IpProtocol: tcp
-          SourceSecurityGroupId: !ImportValue
-            'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+          SourceSecurityGroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
           ToPort: 65535
         - Description: >-
             [IngressInterClusterAPI] Allow worker nodes in group nodegroup-1 to
@@ -184,20 +210,21 @@ Resources:
             used with extension API servers)
           FromPort: 443
           IpProtocol: tcp
-          SourceSecurityGroupId: !ImportValue
-            'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+          SourceSecurityGroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
           ToPort: 443
         - FromPort: 22
           IpProtocol: tcp
-          SourceSecurityGroupId: !ImportValue
-            'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+          SourceSecurityGroupId: sg-08bd4a0677d845013
           ToPort: 22
       Tags:
         - Key: kubernetes.io/cluster/eks-poc
           Value: owned
         - Key: Name
           Value: !Sub '${AWS::StackName}/SG'
+        - Key: RelatedTo
+          Value:   !ImportValue
             'Fn::Sub': '${ClusterStackName}::SecurityGroup'
+          #Value: !ImportValue '${ClusterStackName}::SecurityGroup'
       VpcId: !ImportValue 
         'Fn::Sub': '${ClusterStackName}::VPC'
 Outputs:
@@ -220,3 +247,18 @@ Outputs:
     Export:
       Name: !Sub '${AWS::StackName}::InstanceRoleARN'
       
+
+    © 2021 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
