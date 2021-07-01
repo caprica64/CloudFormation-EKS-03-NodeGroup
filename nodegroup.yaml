@@ -56,7 +56,8 @@ Resources:
         Allow control plane to receive API requests from worker nodes in group
         nodegroup-1
       FromPort: 443
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue
+        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
@@ -80,7 +81,8 @@ Resources:
           Value: owned
       VPCZoneIdentifier: !Split 
         - ','
-        - !ImportValue 'EKS-01-Cluster::SubnetsPublic'
+        - !ImportValue
+        'Fn::Sub': '${ClusterStackName}::SubnetsPublic'
     UpdatePolicy:
       AutoScalingRollingUpdate: {}
   NodeGroupLaunchTemplate:
