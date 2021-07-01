@@ -32,7 +32,8 @@ Resources:
         nodegroup-1 (kubelet and workload TCP ports)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 1025
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue
+        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       ToPort: 65535
   EgressInterClusterAPI:
@@ -44,7 +45,8 @@ Resources:
         API servers)
       DestinationSecurityGroupId: !Ref SG
       FromPort: 443
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue
+        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       ToPort: 443
   IngressInterClusterCP:
@@ -54,7 +56,8 @@ Resources:
         Allow control plane to receive API requests from worker nodes in group
         nodegroup-1
       FromPort: 443
-      GroupId: !ImportValue 'EKS-01-Cluster::SecurityGroup'
+      GroupId: !ImportValue
+        'Fn::Sub': '${ClusterStackName}::SecurityGroup'
       IpProtocol: tcp
       SourceSecurityGroupId: !Ref SG
       ToPort: 443
@@ -78,7 +81,8 @@ Resources:
           Value: owned
       VPCZoneIdentifier: !Split 
         - ','
-        - !ImportValue 'EKS-01-Cluster::SubnetsPublic'
+        - !ImportValue
+            'Fn::Sub': '${ClusterStackName}::SubnetsPublic'
     UpdatePolicy:
       AutoScalingRollingUpdate: {}
   NodeGroupLaunchTemplate:
@@ -106,7 +110,8 @@ Resources:
         NetworkInterfaces:
           - DeviceIndex: 0
             Groups:
-              - !ImportValue 'EKS-01-Cluster::SharedNodeSecurityGroup'
+              - !ImportValue
+                  'Fn::Sub': '${ClusterStackName}::SharedNodeSecurityGroup'
               - !Ref SG
             NetworkCardIndex: 0
         TagSpecifications:
@@ -192,8 +197,6 @@ Resources:
           Value: owned
         - Key: Name
           Value: !Sub '${AWS::StackName}/SG'
-        - Key: RelatedTo
-          Value:   !ImportValue
             'Fn::Sub': '${ClusterStackName}::SecurityGroup'
       VpcId: !ImportValue 
         'Fn::Sub': '${ClusterStackName}::VPC'
